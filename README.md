@@ -1,6 +1,8 @@
 # M365 LangChain Agent
 
-RAG agent for Microsoft 365. It answers employee questions from an internal knowledge base with source backed responses, and runs as a single container on Azure Container Apps.
+RAG agent for Microsoft 365 that helps employees get answers from internal knowledge bases without manually searching through scattered documents.
+
+It retrieves relevant content, generates source-backed answers, and supports Microsoft 365 workflows through Azure based infrastructure.
 
 **Stack:** Python 3.10 | LangChain | Azure Bot Service | CosmosDB | Azure AI Search | Azure OpenAI
 
@@ -10,8 +12,21 @@ RAG agent for Microsoft 365. It answers employee questions from an internal know
 
 ---
 
+## What It Solves
+
+Many internal teams lose time searching across SharePoint, wiki pages, and internal documents for answers that already exist.
+
+This agent is built to reduce that friction by:
+- retrieving relevant internal content
+- generating answers with source citations
+- preserving short term conversation context
+- supporting both chat based debugging and Bot Service delivery
+
+---
+
 ## Table of Contents
 
+- [What It Solves](#what-it-solves)
 - [Quick Start](#quick-start)
 - [User Interfaces](#user-interfaces)
 - [RAG Pipeline](#rag-pipeline)
@@ -50,7 +65,7 @@ curl http://localhost:8080/health
 
 ## User Interfaces
 
-The agent supports two interface modes through the USER_INTERFACE environment variable. Both use the same FastAPI app and share /health, /readiness, and /test/query endpoints.
+Two interface modes controlled by the USER_INTERFACE environment variable. Both share the same FastAPI app with /health, /readiness, and /test/query endpoints.
 
 ### Bot Service Mode
 
@@ -111,7 +126,7 @@ Each Chainlit response includes three expandable debug sections:
 
 ## RAG Pipeline
 
-The agent follows a direct flow:
+Direct retrieval-generation flow, no orchestration framework:
 
 ```
 User Question
@@ -142,7 +157,7 @@ Hybrid search combines:
 
 - Keyword retrieval using BM25
 - Vector retrieval using embeddings
-- Semantic reranking for better final ordering
+- Semantic reranking for final ordering
 
 ## Deployment
 
@@ -218,7 +233,7 @@ m365-langchain-agent/
 
 ## AI Foundry Integration
 
-Use the registration script to register the agent in Azure AI Foundry.
+Register the agent in Azure AI Foundry using the included script.
 
 ```bash
 python scripts/register_foundry_agent.py
